@@ -9,16 +9,15 @@ using namespace std;
 
 typedef pair<int, vector<int>> pii;
 
-const int MAX_SIZE = 100'5;
 vector<pii> COUNTRY;
 
 bool compare(pii a, pii b) {
     for (int i=0; i < 3; i++) {
-        if (a.second[i] != b.second[i]) {
-            return a.second[i] > b.second[i];
+        if (a.second.at(i) != b.second.at(i)) {
+            return a.second.at(i) > b.second.at(i);
         }
     }
-    return true;
+    return false;
 }
 
 int main(void) {
@@ -27,6 +26,7 @@ int main(void) {
     int N, K;
     cin >> N >> K;
 
+    pii k;
     for (int i=0; i < N; i++) {
         int n; cin >> n;
         int gold, silver, bronze;
@@ -34,25 +34,18 @@ int main(void) {
 
         vector<int> prize;
         prize.push_back(gold); prize.push_back(silver); prize.push_back(bronze);
-        COUNTRY.push_back(make_pair(n, prize));
+        if (n == K) {
+            k = make_pair(n, prize);
+        } else {
+            COUNTRY.push_back(make_pair(n, prize));
+        }
     }
 
-    sort(COUNTRY.begin(), COUNTRY.end(), compare);
-    
     int result = 1;
-    if (!(COUNTRY[0].first == K)) {
-        for (int i=1; i < N; i++) {
+    for (int i=0; i < COUNTRY.size(); i++) {
+        if (compare(COUNTRY[i], k)) {
             result++;
-            if (COUNTRY[i-1].second[0] == COUNTRY[i].second[0] && 
-                COUNTRY[i-1].second[1] == COUNTRY[i].second[1] && 
-                COUNTRY[i-1].second[2] == COUNTRY[i].second[2]) {
-                result--;
-            }
-            else {
-                result = i+1;
-            }
-            if (COUNTRY[i].first == K) break;
-        }   
+        }
     }
 
     cout << result << '\n';
