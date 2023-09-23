@@ -70,7 +70,6 @@ int main(void) {
 
     // 오른다리
     for (int i=heartX+body+1; i < N; i++) {
-        cout << cookie[i][heartY+1] << '\n';
         if (cookie[i][heartY+1] == '_') {
             rightLeg = i - heartX - body - 1;
             break;
