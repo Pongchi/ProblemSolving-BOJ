@@ -7,6 +7,7 @@ using namespace std;
 
 typedef pair<int, int> pii;
 
+const int OFFSET = 20;
 const int MAX_SIZE = 105;
 bool SWITCH[MAX_SIZE];
 pii students[MAX_SIZE];
@@ -31,11 +32,11 @@ int main(void) {
 	for (int i=0; i < S; i++) {
 		pii student = students[i];
 		if (student.first == 1) {
-			for (int n=student.second; n <= N; n += n) SWITCH[n] = !SWITCH[n];
+			for (int n=student.second; n <= N; n += student.second) SWITCH[n] = !SWITCH[n];
 		}
 		else {
 			SWITCH[student.second] = !SWITCH[student.second];
-			for (int n=1; !(student.second-n == 0 || student.second+n == N+1); n++) {
+			for (int n=1; (student.second-n != 0 || student.second+n != N+1); n++) {
 				if (SWITCH[student.second-n] == SWITCH[student.second+n]) {
 					SWITCH[student.second-n] = !SWITCH[student.second-n];
 					SWITCH[student.second+n] = !SWITCH[student.second+n];
@@ -45,9 +46,12 @@ int main(void) {
 		}
 	}
 	
-	for (int i=0; i < N/8; i++) {
-		for (int j=0; j < 8; j++) {
-			cout << SWITCH[8*i + j+1] << ' ';
+	for (int i=0; i <= N/OFFSET; i++) {
+		for (int j=0; j < OFFSET; j++) {
+			int idx = OFFSET*i + j+1;
+			if (idx > N) break;
+			
+			cout << SWITCH[idx] << ' ';
 		}
 		cout << '\n';
 	}
