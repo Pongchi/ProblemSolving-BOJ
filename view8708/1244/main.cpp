@@ -36,7 +36,7 @@ int main(void) {
 		}
 		else {
 			SWITCH[student.second] = !SWITCH[student.second];
-			for (int n=1; (student.second-n != 0 || student.second+n != N+1); n++) {
+			for (int n=1; (student.second-n != 0 && student.second+n != N+1); n++) {
 				if (SWITCH[student.second-n] == SWITCH[student.second+n]) {
 					SWITCH[student.second-n] = !SWITCH[student.second-n];
 					SWITCH[student.second+n] = !SWITCH[student.second+n];
