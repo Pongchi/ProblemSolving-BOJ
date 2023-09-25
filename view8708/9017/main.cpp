@@ -41,7 +41,11 @@ int main(void) {
 			}
 		}
 
-		int result = record[0];
+		int result = -1;
+		for (auto score : scores) {
+			result = score.first; break;
+		}
+		
 		for (auto score : scores) {
 			if ((scores[result] > score.second) || (scores[result] == score.second && team[result][4] > team[score.first][4]))
 				result = score.first;
