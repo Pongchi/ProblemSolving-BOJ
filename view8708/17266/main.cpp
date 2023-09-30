@@ -1,10 +1,10 @@
-// URL : 
+// URL : https://www.acmicpc.net/problem/17266
 
 #include <iostream>
 
 using namespace std;
 
-const int MAX_SIZE = 100'005;
+const int MAX_SIZE = 200'005;
 int loc[MAX_SIZE];
 bool road[MAX_SIZE];
 
