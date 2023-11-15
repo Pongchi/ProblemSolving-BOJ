@@ -1,7 +1,9 @@
 // URL : https://www.acmicpc.net/problem/1515
 
+#include <algorithm>
 #include <iostream>
 #include <string>
+#include <deque>
 
 using namespace std;
 
@@ -18,18 +20,13 @@ int main(void) {
     for (int i = 0; i < num.length(); i++) {
         bool flag = false;
         while (!flag) {
-            int length = (i+number_length(lastest) < num.length() ? number_length(lastest) : 1);
+            int length = (number_length(i)+number_length(lastest)+1 <= num.length() ? number_length(lastest) : 1);
             int current_number = stoi(num.substr(i, length));
-            if (current_number == lastest) {
+            int count = includeCount(lastest, current_number);
+
+            if (count != 0) {
+                i += count-1;
                 flag = true;
-                i += length-1;
-            }
-            else {
-                int count = includeCount(lastest, num[i]-'0');
-                if (count != 0) {
-                    i += count-1;
-                    flag = true;
-                }
             }
             lastest++;
         }
@@ -41,21 +38,30 @@ int main(void) {
 }
 
 int includeCount(int n, int target) {
-    if (n == target) return 1;
+    deque<int> deque1;
+    deque<int> deque2;
+    for (int i=0; n != 0 || target != 0; i++) {
+        deque1.push_front(n%10);
+        deque2.push_front(target%10);
+        n /= 10;
+        target /= 10;
+    }
 
     int result = 0;
-    do {
-        if (n%10 == target) result++;
-        n /= 10;
-    } while (n != 0);
+    int i=0;
+    int j=0;
+    while (i < deque1.size() && j < deque2.size()) {
+        if (deque1[i] == deque2[j]) {
+            result++; i++; j++;
+        }
+        else {
+            i++;
+        }
+    }
+
     return result;
 }
 
 int number_length(int n) {
-    int result = 0;
-    while (n) {
-        n /= 10;
-        result++;
-    }
-    return result;
+    return to_string(n).size();
 }
