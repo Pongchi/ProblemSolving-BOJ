@@ -9,12 +9,11 @@ int N, M = 6;
 int MAP[6][6];
 int directions[3] = {-1, 0, 1};
 
-int recur(int row, int column, int before_direction, int sum);
+int recur(int row, int column, int before_direction);
 
 int main(void) {
     ios_base::sync_with_stdio(false); cin.tie(NULL);
 
-    int N, M;
     cin >> N >> M;
 
     for (int i=0; i < N; i++) {
@@ -25,7 +24,7 @@ int main(void) {
 
     int result = INT_MAX;
     for (int i=0; i < N; i++) {
-        int sum = recur(N-1, i, -1, 0);
+        int sum = recur(N-1, i, -1);
         result = min(result, sum);
     }
 
@@ -34,17 +33,17 @@ int main(void) {
     return 0;
 }
 
-int recur(int row, int column, int before_direction, int sum) {
+int recur(int row, int column, int before_direction) {
     if (row == 0) return MAP[row][column];
     
     int result = INT_MAX;
     for (int i=0; i < 3; i++) {
         if (i == before_direction) continue;
-        if (0 < column+directions[i] && column+directions[i] < M) {
-            int tmp = recur(row-1, column+directions[i], i, sum+MAP[row][column]);
+        if (0 <= column+directions[i] && column+directions[i] < M) {
+            int tmp = recur(row-1, column+directions[i], i);
             result = min(result, tmp);
         }
     }
 
-    return result;
+    return result + MAP[row][column];
 }
