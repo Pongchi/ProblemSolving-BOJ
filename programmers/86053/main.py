@@ -2,7 +2,7 @@
 
 def solution(a, b, g, s, w, t):
     start = 0
-    end = (10**9 + 10**9) * 1 * 10**5
+    end = (10**9 * 2) * (10**5 * 2) + 10**5
 
     while start <= end:
         mid = (start+end) // 2
@@ -12,7 +12,7 @@ def solution(a, b, g, s, w, t):
 
         for i in range(len(g)):
             can_move_count = mid // (t[i]*2)
-            if mid%(t[i]*2) >= t[i]:
+            if mid % (t[i]*2) >= t[i]:
                 can_move_count += 1
             current_gold += min(g[i], w[i]*can_move_count)
             current_silver += min(s[i], w[i]*can_move_count)
