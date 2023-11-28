@@ -20,10 +20,11 @@ def solution(sales, links):
     
     min_overlap_member = []
     for i in range(1, len(sales)+1):
-        if len(in_team[i]) == 2 and (i in min_member_of_teams):
+        if len(in_team[i]) == 2:
             A, B = in_team[i]
-            min_member_of_teams[A] = i
-            min_member_of_teams[B] = i
+            if  (i in min_member_of_teams) or sales[i-1] < sales[min_member_of_teams[A]-1] + sales[min_member_of_teams[B]-1]:
+                min_member_of_teams[A] = i
+                min_member_of_teams[B] = i
             
     
     result = 0
