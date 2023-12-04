@@ -1,8 +1,31 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/92343
 
 def solution(info, edges):
+    result = [False] * (len(info)+1)
+    visited = [False] * len(info)
+    graph = [ [] for _ in range(len(info)) ]
+    for parent, child in edges:
+        graph[parent].append(child)
 
-    return 0
+    def dfs(sheep, wolf):
+        for parent, child in edges:
+            if visited[parent] and not visited[child]:
+                visited[child] = True
+
+                if info[child] == 0:
+                    dfs(sheep+1, wolf)
+                    result[sheep+1] = True
+                elif sheep > wolf+1:
+                    dfs(sheep, wolf+1)
+
+                visited[child] = False
+
+    visited[0] = True
+    result[1] = True
+    dfs(1, 0)
+    for i in range(len(result)-1, -1, -1):
+        if result[i]:
+            return i
 
 print(solution(
     [0,0,1,1,1,0,1,0,1,0,1,1],
