@@ -1,37 +1,34 @@
 # https://school.programmers.co.kr/learn/courses/30/lessons/72416
 
+import sys
+sys.setrecursionlimit(10**6)
+
 def solution(sales, links):
-    graph = [ [] for i in range(len(sales)+1) ]
-    for a, b in links:
-        graph[a].append(b)
+    N = len(sales)
+    graph = [ [] for _ in range(N+1) ]
+    for U, V in links:
+        graph[U].append(V)
 
-    teams = []
-    in_team = [ [] for _ in range(len(sales)+1) ]
-    for i in range(len(sales)+1):
-        if len(graph[i]) > 0:
-            teams.append([i]+graph[i])
-            for member in teams[-1]:
-                in_team[member].append(len(teams)-1)
+    # [워크샵 불참여, 참여]
+    dp = [[0, 0]] + [ [0, sales[employee]] for employee in range(N) ]
+    def dfs(node):
+        if not graph[node]: return
+        
+        min_cost = float('inf')
+        for child in graph[node]:
+            dfs(child)
 
-    min_member_of_teams = []
-    for team in teams:
-        member = min(team, key=lambda x : sales[x-1])
-        min_member_of_teams.append(member)
+            dp[node][0] += min(dp[child])
+            dp[node][1] += min(dp[child])
+            if dp[child][0] < dp[child][1]:
+                min_cost = min(min_cost, dp[child][1] - dp[child][0])
+            else:
+                min_cost = 0
+
+        dp[node][0] += min_cost
     
-    min_overlap_member = []
-    for i in range(1, len(sales)+1):
-        if len(in_team[i]) == 2:
-            A, B = in_team[i]
-            if  (i in min_member_of_teams) or sales[i-1] < sales[min_member_of_teams[A]-1] + sales[min_member_of_teams[B]-1]:
-                min_member_of_teams[A] = i
-                min_member_of_teams[B] = i
-            
-    
-    result = 0
-    for i in set(min_member_of_teams):
-        result += sales[i-1]
-
-    return result
+    dfs(1)
+    return min(dp[1])
 
 print(solution(
     [14, 17, 15, 18, 19, 14, 13, 16, 28, 17],
