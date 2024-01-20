@@ -1,7 +1,6 @@
 # https://www.acmicpc.net/problem/14002
 
 import sys
-from bisect import bisect_left
 
 input = sys.stdin.readline
 
