@@ -6,7 +6,9 @@ from bisect import bisect_left
 input = sys.stdin.readline
 
 A = int(input())
-seq = list(map(lambda x : -int(x), input().split()))
+seq = list(map(int, input().split()))
+
+seq.reverse()
 
 lis = [seq[0]]
 
