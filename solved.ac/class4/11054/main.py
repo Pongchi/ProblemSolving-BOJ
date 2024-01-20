@@ -9,30 +9,29 @@ A = int(input())
 seq = list(map(int, input().split()))
 
 lis = [seq[0]]
-lis_dp = [0] * A
+lis_dp = []
 for i in range(A):
     if lis[-1] < seq[i]:
         lis.append(seq[i])
-        lis_dp[i] = len(lis)
     else:
         idx = bisect_left(lis, seq[i])
         lis[idx] = seq[i]
-        lis_dp[i] = idx
+    lis_dp.append(len(lis))
 
-minus_seq = list(map(lambda x : -x, seq))
+seq.reverse()
 
-lds = [minus_seq[0]]
-lds_dp = [0] * A
+lds = [seq[0]]
+lds_dp = []
 for i in range(A):
-    if lds[-1] < minus_seq[i]:
-        lds.append(minus_seq[i])
-        lds_dp[i] = len(lds)
+    if lds[-1] < seq[i]:
+        lds.append(seq[i])
     else:
-        idx = bisect_left(lds, minus_seq[i])
-        lds[idx] = minus_seq[i]
-        lds_dp[i] = idx
+        idx = bisect_left(lds, seq[i])
+        lds[idx] = seq[i]
+    lds_dp.append(len(lds))
 
 result = 1
+lds_dp.reverse()
 for i in range(A):
     result = max(result, lis_dp[i] + lds_dp[i])
 
