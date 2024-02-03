@@ -24,10 +24,7 @@ def dfs(parent):
 dfs(1)
 result = 0
 for parent in range(1, n+1):
-    tmp = 0
-    for child, weight in graph[parent]:
-        tmp += diameters[child] + weight
-
-    result = max(result, tmp)
+    tmp = sorted([diameters[child] + weight for child, weight in graph[parent]])
+    result = max(result, sum(tmp[:2]))
 
 print(result)
