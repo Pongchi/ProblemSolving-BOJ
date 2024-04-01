@@ -7,12 +7,15 @@ input = sys.stdin.readline
 
 N, M, X = map(int, input().split())
 
-graph = [ [] for _ in range(N+1) ]
+graph1 = [ [] for _ in range(N+1) ]
+graph2 = [ [] for _ in range(N+1) ]
+
 for _ in range(M):
     src, dst, cost = map(int, input().split())
-    graph[src].append((dst, cost))
+    graph1[src].append((dst, cost))
+    graph2[dst].append((src, cost))
 
-def dijkstra(root):
+def dijkstra(root, graph):
     distances = [float('inf')] * (N+1)
     distances[root] = 0
 
@@ -33,8 +36,8 @@ def dijkstra(root):
 
     return distances
 
-come_backs = dijkstra(X)
-goes = [0] + [ dijkstra(i)[X] for i in range(1, N+1) ]
+come_backs = dijkstra(X, graph1)
+goes = dijkstra(X, graph2)
 
 result = 0
 for i in range(1, N+1):
